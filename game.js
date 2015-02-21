@@ -55,7 +55,7 @@ if (document.images)
 {
 	var img = new Array();
 	img[0] = new Image();
-	img[0].src = 'player.png';
+	img[0].src = 'stickman.png';
 }
 
 function main_draw()
@@ -64,9 +64,9 @@ function main_draw()
 	var context = main_canvas.getContext("2d");
 	context.clearRect(0,0,XMax,YMax);
 	
-	var player_image = new Image();
-	player_image.src = "player.png";
-	context.drawImage(player_image,player['position'][0],player['position'][1]);
+	var stick_image = new Image();
+	stick_image.src = "stickman.png";
+	context.drawImage(stick_image,200,200);
 }
 
 function god_draw()
@@ -75,9 +75,9 @@ function god_draw()
 	var context = god_canvas.getContext("2d");
 	context.clearRect(0,0,XMax,ZMax);
 	
-	var player_image = new Image();
-	player_image.src = "player.png";
-	context.drawImage(player_image,100,player['position'][1]);
+	var stick_image = new Image();
+	stick_image.src = "stickman.png";
+	context.drawImage(stick_image,100,100);
 }
 
 function draw_all()
@@ -87,6 +87,9 @@ function draw_all()
 }
 
 
+//Calls draw function
+//Checks game end condition
+//Waits for step
 function step()
 {
 	draw_all();
@@ -101,11 +104,14 @@ function step()
 	}
 
 }
+
+//Timer til next draw
 function wait_for_step()
 {
 	setTimeout('step()', 100);
 }
 
+//Main
 function game()
 {
 	document.getElementById("button").style.visibility = 'hidden';
