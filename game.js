@@ -2,13 +2,27 @@
 var XMax = 400;
 var YMax = 400;
 var ZMax = 400;
+var ZScalingFactor = .5;
+var YScalingFactor = .3;
 
 //Global Variables
-var pFortHealth;
+
+//Player fort health (int)
+var pFortHealth = 10;
+//Enemy boss health (int)
 var eBossHealth;
+// materials (int)
 var materials;
 
 //Basic foot soldier
+// x = int x axis
+// y = int y axis
+// z = int z axis
+// speed = int movement speed
+// health = int health
+// def = int defense 
+// atk = int attack
+// rng = int range
 function stickMan(x, y, z, speed, health, def, atk, rng){
 	this.x = x;
 	this.y = y;
@@ -20,16 +34,20 @@ function stickMan(x, y, z, speed, health, def, atk, rng){
 	this.rng = rng;
 }
 
+//Player Army
+// pFootSoldiers = Array foot soldiers
+// pTowerSoldiers = Array tower soldiers
+// pTowerSupport = Array tower support
+var pArmy = new Object;
+	pArmy.pFootSoldiers = [];
+	pArmy.pTowerSoldiers = [];	
+	pArmy.pTowerSupport = [];
 
-var playerArmy = new Object;
-playerArmy['footSoldiers'];
-playerArmy['towerSoldiers'];	
-playerArmy['towerSupport'];
 
-var enemyArmy = new Object;
-enemyArmy[footSoldiers];
-enemyArmy['towerSoldiers'];	
-enemyArmy['towerSupport'];
+//Enemy Army
+// eFootSoldiers = Array foot soldiers
+var eArmy = new Object;
+	eArmy.eFootSoldiers = [];
 
 
 // preload images
@@ -44,7 +62,7 @@ function main_draw()
 {
 	var main_canvas = document.getElementById("main_screen");
 	var context = main_canvas.getContext("2d");
-	context.clearRect(0,0,xMax,yMax);
+	context.clearRect(0,0,XMax,YMax);
 	
 	var player_image = new Image();
 	player_image.src = "player.png";
@@ -55,7 +73,7 @@ function god_draw()
 {
 	var god_canvas = document.getElementById("god_screen");
 	var context = god_canvas.getContext("2d");
-	context.clearRect(0,0,xMax,zMax);
+	context.clearRect(0,0,XMax,ZMax);
 	
 	var player_image = new Image();
 	player_image.src = "player.png";
@@ -72,7 +90,7 @@ function draw_all()
 function step()
 {
 	draw_all();
-	if(player['dead'])
+	if(pFortHealth > 0)
 	{
 		document.getElementById("result").innerHTML = "GAME OVER";
 		document.getElementById("button").style.visibility = 'visible';
@@ -90,8 +108,6 @@ function wait_for_step()
 
 function game()
 {
-	player['position'] = [40,10];
-	player['dead'] = false;
 	document.getElementById("button").style.visibility = 'hidden';
 	wait_for_step();
 }
