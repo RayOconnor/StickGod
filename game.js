@@ -1,3 +1,10 @@
+/*
+Hello this is a tes comment
+Also, fuck you branden ;)
+ */
+
+
+
 //Constant Variables
 var XMax = 400;
 var YMax = 400;
@@ -19,6 +26,7 @@ function stickMan(x, y, z, speed, health, def, atk, rng){
 	this.atk = atk;
 	this.rng = rng;
 }
+
 
 
 var playerArmy = new Object;
