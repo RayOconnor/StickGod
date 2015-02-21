@@ -9,28 +9,26 @@ body {
 				padding: 0;
 				margin: 0;
 			}
-			#main_container {
-				position: fixed;
-				padding: 0;
-				top: 50%;
-				margin-top: -201px;
-				left: 50%;
-				margin-left: -201px;
-			}
 			#god_container {
 				position: fixed;
-				padding: 0;
+				padding: 5;
 				top: 50%;
 				margin-top: -201px;
-				left: 10%;
+				right: 30%;
+				margin-right: -201px;
+			}
+			#main_container {
+				position: fixed;
+				padding: 5;
+				top: 50%;
+				margin-top: -201px;
+				left: 30%;
 				margin-left: -201px;
 			}
 			#button {
 				position: fixed;
-				top: 85%;
-				margin-top: 240px:
-				left: 20%;
-				margin-left: 35%;
+				top: 10%;
+				left: 50%;
 				-moz-box-shadow:inset 0px 1px 3px 0px #91b8b3;
 				-webkit-box-shadow:inset 0px 1px 3px 0px #91b8b3;
 				box-shadow:inset 0px 1px 3px 0px #91b8b3;
@@ -49,12 +47,6 @@ body {
 				display:inline-block;
 				cursor:pointer;
 				padding:11px 23px;
-			}
-			select {
-				width: 100px;
-				margin: 0;
-				padding: 0 0 0 10px;
-				cursor: pointer;
 			}
 			button {
 				width: 100px;
