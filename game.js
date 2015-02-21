@@ -1,11 +1,36 @@
-//Global Variables
-var xMax = 400;
-var yMax = 400;
-var zMax = 400;
+//Constant Variables
+var XMax = 400;
+var YMax = 400;
+var ZMax = 400;
 
-var player = new Object;
-player['position'];
-player['dead'];	
+//Global Variables
+var pFortHealth;
+var eBossHealth;
+var materials;
+
+//Basic foot soldier
+function stickMan(x, y, z, speed, health, def, atk, rng){
+	this.x = x;
+	this.y = y;
+	this.z = z;
+	this.speed = speed;
+	this.health = health;
+	this.def = def;
+	this.atk = atk;
+	this.rng = rng;
+}
+
+
+var playerArmy = new Object;
+playerArmy['footSoldiers'];
+playerArmy['towerSoldiers'];	
+playerArmy['towerSupport'];
+
+var enemyArmy = new Object;
+enemyArmy[footSoldiers];
+enemyArmy['towerSoldiers'];	
+enemyArmy['towerSupport'];
+
 
 // preload images
 if (document.images)
