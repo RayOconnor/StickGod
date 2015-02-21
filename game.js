@@ -1,5 +1,8 @@
-// Basic Layout
-//Create player object
+//Global Variables
+var xMax = 400;
+var yMax = 400;
+var zMax = 400;
+
 var player = new Object;
 player['position'];
 player['dead'];	
@@ -16,7 +19,7 @@ function main_draw()
 {
 	var main_canvas = document.getElementById("main_screen");
 	var context = main_canvas.getContext("2d");
-	context.clearRect(0,0,400,400);
+	context.clearRect(0,0,xMax,yMax);
 	
 	var player_image = new Image();
 	player_image.src = "player.png";
@@ -27,7 +30,7 @@ function god_draw()
 {
 	var god_canvas = document.getElementById("god_screen");
 	var context = god_canvas.getContext("2d");
-	context.clearRect(0,0,400,400);
+	context.clearRect(0,0,xMax,zMax);
 	
 	var player_image = new Image();
 	player_image.src = "player.png";
