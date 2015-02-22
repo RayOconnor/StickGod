@@ -58,15 +58,30 @@ if (document.images)
 	img[0].src = 'stickman.png';
 }
 
+
+//
+function move_soldiers()
+{
+	for (var i = 0; i < pArmy.pFootSoldiers.length; i++)
+	{
+		pArmy.pFootSoldiers[i].x += pArmy.pFootSoldiers[i].speed;
+	}
+}
+
+
 function main_draw()
 {
 	var main_canvas = document.getElementById("main_screen");
 	var context = main_canvas.getContext("2d");
 	context.clearRect(0,0,XMax,YMax);
 	
-	var stick_image = new Image();
-	stick_image.src = "stickman.png";
-	context.drawImage(stick_image,200,200);
+	for (var i = 0; i < pArmy.pFootSoldiers.length; i++)
+	{
+		var stick_image = new Image();
+		stick_image.src = "stickman.png";
+		context.drawImage(stick_image,pArmy.pFootSoldiers[i].x,pArmy.pFootSoldiers[i].y);
+	}
+	
 }
 
 function god_draw()
@@ -92,8 +107,9 @@ function draw_all()
 //Waits for step
 function step()
 {
+	move_soldiers();
 	draw_all();
-	if(pFortHealth > 0)
+	if(pFortHealth <= 0)
 	{
 		document.getElementById("result").innerHTML = "GAME OVER";
 		document.getElementById("button").style.visibility = 'visible';
@@ -108,12 +124,16 @@ function step()
 //Timer til next draw
 function wait_for_step()
 {
-	setTimeout('step()', 100);
+	setTimeout('step()', 50);
 }
 
 //Main
 function game()
 {
 	document.getElementById("button").style.visibility = 'hidden';
+	var soldier1 = new stickMan(50, 100, 50, 5, 10, 10, 5, 2);
+	var soldier2 = new stickMan(50, 200, 50, 5, 10, 10, 5, 2);
+	pArmy.pFootSoldiers.push(soldier1);
+	pArmy.pFootSoldiers.push(soldier2);
 	wait_for_step();
 }
