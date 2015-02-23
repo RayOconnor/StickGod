@@ -1,54 +1,40 @@
 //Constant Variables
-var XMax = 400;
+var XMax = 400;  
 var YMax = 400;
 var ZMax = 400;
 var ZScalingFactor = .5;
 var YScalingFactor = .3;
+var GameSpeed = 50;
 
 //Global Variables
 
-//Player fort health (int)
-var pFortHealth = 10;
-//Enemy boss health (int)
-var eBossHealth;
-// materials (int)
-var materials;
+var pFortHealth = 10; //Player fort health (int)
+var eBossHealth;      //Enemy boss health (int)
+var materials;        //Materials (int)
 
 //Basic foot soldier
-// x = int x axis
-// y = int y axis
-// z = int z axis
-// speed = int movement speed
-// health = int health
-// def = int defense 
-// atk = int attack
-// rng = int range
 function stickMan(x, y, z, speed, health, def, atk, rng, fight){
-	this.x = x;
-	this.y = y;
-	this.z = z;
-	this.speed = speed;
-	this.health = health;
-	this.def = def;
-	this.atk = atk;
-	this.rng = rng;
-	this.fight = fight;
+	this.x = x;            // x = int x axis
+	this.y = y;            // y = int y axis
+	this.z = z;            // z = int z axis
+	this.speed = speed;    // speed = int movement speed
+	this.health = health;  // health = int health
+	this.def = def;        // def = int defense 
+	this.atk = atk;        // atk = int attack
+	this.rng = rng;        // rng = int range
+	this.fight = fight;    // fight = bool fight
 }
 
 //Player Army
-// pFootSoldiers = Array foot soldiers
-// pTowerSoldiers = Array tower soldiers
-// pTowerSupport = Array tower support
 var pArmy = new Object;
-	pArmy.pFootSoldiers = [];
-	pArmy.pTowerSoldiers = [];	
-	pArmy.pTowerSupport = [];
+	pArmy.pFootSoldiers = [];   // pFootSoldiers = Array foot soldiers
+	pArmy.pTowerSoldiers = [];	// pTowerSoldiers = Array tower soldiers
+	pArmy.pTowerSupport = [];   // pTowerSupport = Array tower support
 
 
 //Enemy Army
-// eFootSoldiers = Array foot soldiers
 var eArmy = new Object;
-	eArmy.eFootSoldiers = [];
+	eArmy.eFootSoldiers = [];   // eFootSoldiers = Array foot soldiers
 
 
 // preload images
@@ -62,6 +48,8 @@ if (document.images)
 }
 
 
+//////////////////// PLAYER ARMY ///////////////////////////////////
+
 //moves the soldiers in the player army
 function move_player_soldiers()
 {
@@ -72,12 +60,16 @@ function move_player_soldiers()
 }
 
 //Spawns player soldiers in player army
+//called from keylistener
+//yPos = int y-axis (lane)
 function spawn_player_soldiers(ypos)
 {
 	var zpos = ypos;
 	var soldier = new stickMan(0, ypos, zpos, 2, 10, 10, 5, 2, false);
 	pArmy.pFootSoldiers.push(soldier);
 }
+
+////////////////////// ENEMY ARMY /////////////////////////////////////
 
 //Moves the soldiers in the enemy army
 function move_enemy_soldiers()
@@ -88,6 +80,9 @@ function move_enemy_soldiers()
 	}
 }
 
+//////////////////// COLLISION AND COMBAT ///////////////////////////////////
+
+//
 function check_collision()
 {
 	for (var i = 0; i < pArmy.pFootSoldiers.length; i++)
@@ -104,15 +99,20 @@ function check_collision()
 	}
 }
 
+//////////////////// KEY LISTENER ////////////////////////////////////
 
 //Spawns player soldier at click location
+//CURRENTLY: MAPPED TO KEYS 1, 2, 3, and 4 to represent lanes
 function keyListener(e) {
     if(!e)
 	{
 		e = window.event;
 	}
-    var yPos = e.clientY;
     
+    //Removed click location to temporarily use number keys
+    /*
+    var yPos = e.clientY;
+   
     if (yPos <= 250)
     {
     	yPos = 100;
@@ -125,17 +125,38 @@ function keyListener(e) {
     {
     	yPos = 300;
     }
+    */
+	if(e.keyCode == 49)
+	{
+		yPos = 350;
+	}		
+	else if(e.keyCode == 50)
+	{
+		yPos = 300;
+	}
+	else if(e.keyCode == 51)
+	{
+		yPos = 200;
+	}
+	else if(e.keyCode == 52)
+	{
+		yPos = 100;
+	}
     spawn_player_soldiers(yPos);
 
 }
 
+/////////////////// DRAW METHODS ///////////////////////////////////
 
+//Draw to main canvas
 function main_draw()
 {
+	//locate main canvas in document and clear
 	var main_canvas = document.getElementById("main_screen");
 	var context = main_canvas.getContext("2d");
 	context.clearRect(0,0,XMax,YMax);
 	
+	//Draw every player soldier
 	for (var i = 0; i < pArmy.pFootSoldiers.length; i++)
 	{
 		var stick_image = new Image();
@@ -143,6 +164,7 @@ function main_draw()
 		context.drawImage(stick_image,pArmy.pFootSoldiers[i].x,pArmy.pFootSoldiers[i].y);
 	}
 
+	//Draw every enemy soldier
 	for (var i = 0; i < eArmy.eFootSoldiers.length; i++)
 	{
 		var enemy_image = new Image();
@@ -152,12 +174,15 @@ function main_draw()
 	
 }
 
+//Draw to god canvas
 function god_draw()
 {
+	//locate god canvas in document and clear
 	var god_canvas = document.getElementById("god_screen");
 	var context = god_canvas.getContext("2d");
 	context.clearRect(0,0,XMax,ZMax);
 	
+	//Draw every player soldier
 	for (var i = 0; i < pArmy.pFootSoldiers.length; i++)
 	{
 		var stick_image = new Image();
@@ -165,6 +190,7 @@ function god_draw()
 		context.drawImage(stick_image,pArmy.pFootSoldiers[i].x,pArmy.pFootSoldiers[i].z);
 	}
 
+	//Draw every enemy soldier
 	for (var i = 0; i < eArmy.eFootSoldiers.length; i++)
 	{
 		var enemy_image = new Image();
@@ -173,16 +199,18 @@ function god_draw()
 	}
 }
 
+//Draw to each canvas
 function draw_all()
 {
 	main_draw();
 	god_draw();
 }
 
+///////////////////// MAIN GAME RUNNING METHODS /////////////////////////////////
 
 //Calls draw function
 //Checks game end condition
-//Waits for step
+//Waits for next step
 function step()
 {
 	draw_all();
@@ -205,14 +233,15 @@ function step()
 //Timer til next draw
 function wait_for_step()
 {
-	setTimeout('step()', 50);
+	setTimeout('step()', GameSpeed);  //Wait (int) GameSpeed, call step()
 }
 
 //Main
 function game()
 {
 	document.getElementById("button").style.visibility = 'hidden';
-	document.getElementById("main_screen").onmousedown = keyListener;
+	//document.getElementById("main_screen").onmousedown = keyListener;
+	document.onkeydown = keyListener;
 	var soldier1 = new stickMan(50, 100, 100, 5, 10, 10, 5, 2, false);
 	var soldier2 = new stickMan(20, 200, 200, 2, 10, 10, 5, 2, false);
 	var enemy1 = new stickMan(350, 100, 100, 5, 10, 10, 5, 2, false);
