@@ -2,31 +2,29 @@ body {
 				background: #BCC6CC;
 			}
 			canvas {
+				vertical-align: middle;
 				background: #ffffff;
 				border-size: 5px;
 				border-style: inset;
-				border-color: #4E8975;
-				padding: 0;
-				margin: 0;
+				border-color: #380000;
+				padding: 10;
+				margin: 0 auto;
 			}
 			#god_container {
-				position: fixed;
-				padding: 5;
-				top: 50%;
-				margin-top: -201px;
-				right: 30%;
-				margin-right: -201px;
+				position: static;
 			}
 			#main_container {
-				position: fixed;
-				padding: 5;
-				top: 50%;
-				margin-top: -201px;
-				left: 30%;
-				margin-left: -201px;
+				position: static;
+				float: left;
+			}
+			#menu_container {
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+				border-size: 7px;
 			}
 			#button {
-				position: fixed;
+				position: static;
 				top: 10%;
 				left: 50%;
 				-moz-box-shadow:inset 0px 1px 3px 0px #91b8b3;

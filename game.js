@@ -10,7 +10,7 @@ var GameSpeed = 50;
 
 var pFortHealth = 10; //Player fort health (int)
 var eBossHealth;      //Enemy boss health (int)
-var materials;        //Materials (int)
+var materials = 10;   //Materials (int)
 
 //Basic foot soldier
 function stickMan(x, y, z, speed, health, def, atk, rng, fight){
@@ -46,9 +46,18 @@ if (document.images)
 	img[1] = new Image();
 	img[1].src = 'godbackground.png';
 	img[2] = new Image();
-	img[2].src = 'stickmanside.png';
+	img[2].src = 'menubackground.png';
 	img[3] = new Image();
-	img[3].src = 'stickmantop.png';
+	img[3].src = 'pstickmanside.png';
+	img[4] = new Image();
+	img[4].src = 'estickmanside.png';
+	img[5] = new Image();
+	img[5].src = 'stickmantop.png';
+	img[6] = new Image();
+	img[6].src = 'validstickmanicon.png';
+	img[7] = new Image();
+	img[7].src = 'invalidstickmanicon.png';
+
 }
 
 
@@ -68,9 +77,13 @@ function move_player_soldiers()
 //yPos = int y-axis (lane)
 function spawn_player_soldiers(ypos)
 {
+	if (materials >= 5)
+	{
 	var zpos = ypos;
 	var soldier = new stickMan(0, ypos, zpos, 2, 10, 10, 5, 2, false);
 	pArmy.pFootSoldiers.push(soldier);
+	materials -= 5;
+    }
 }
 
 ////////////////////// ENEMY ARMY /////////////////////////////////////
@@ -84,9 +97,36 @@ function move_enemy_soldiers()
 	}
 }
 
+//Spawns the soldiers in enemy army
+function spawn_enemy_soldiers()
+{
+	//Generate random number for random lane
+	var randNum = Math.floor((Math.random() * 4) + 1);
+	var position;
+	if (randNum == 1)
+	{
+		position = 375;
+	}
+	else if (randNum == 2)
+	{
+		position = 345;
+	}
+	else if (randNum == 3)
+	{
+		position = 315;
+	}
+	else 
+	{
+		position = 285;
+	}
+	var soldier = new stickMan(400, position, position, 2, 10, 10, 5, 2, false);
+	eArmy.eFootSoldiers.push(soldier);
+	materials += 5;
+}
+
 //////////////////// COLLISION AND COMBAT ///////////////////////////////////
 
-//
+//All this does right now is set speed to 0 on collision
 function check_collision()
 {
 	for (var i = 0; i < pArmy.pFootSoldiers.length; i++)
@@ -146,7 +186,17 @@ function keyListener(e) {
 	{
 		yPos = 285;
 	}
+    
+    if (e.keyCode >= 49 && e.keyCode <= 52)
+    {
     spawn_player_soldiers(yPos);
+	}
+
+    //Spawn random enemy soldier with 5
+    if(e.keyCode == 53)
+	{
+		spawn_enemy_soldiers();
+	}
 
 }
 
@@ -169,7 +219,7 @@ function main_draw()
 	for (var i = 0; i < pArmy.pFootSoldiers.length; i++)
 	{
 		var stick_image = new Image();
-		stick_image.src = "stickmanside.png";
+		stick_image.src = "pstickmanside.png";
 		context.drawImage(stick_image,pArmy.pFootSoldiers[i].x,pArmy.pFootSoldiers[i].y);
 	}
 
@@ -177,7 +227,7 @@ function main_draw()
 	for (var i = 0; i < eArmy.eFootSoldiers.length; i++)
 	{
 		var enemy_image = new Image();
-		enemy_image.src = "stickmanside.png";
+		enemy_image.src = "estickmanside.png";
 		context.drawImage(enemy_image,eArmy.eFootSoldiers[i].x,eArmy.eFootSoldiers[i].y);
 	}
 	
@@ -213,11 +263,41 @@ function god_draw()
 	}
 }
 
+//Draw to god canvas
+function menu_draw()
+{
+	//locate menu canvas in document and clear
+	var menu_canvas = document.getElementById("menu_screen");
+	var context = menu_canvas.getContext("2d");
+	context.clearRect(0,0,800,100);
+
+	//Draw menu background
+	var background = new Image();
+	background.src = "menubackground.png";
+	context.drawImage(background,0,0);
+
+	//Draw icons
+	if (materials >= 5)
+	{
+	var stick_icon = new Image();
+	stick_icon.src = "validstickmanicon.png";
+	context.drawImage(stick_icon,10,10);
+    }
+    else 
+    {
+	var stick_icon = new Image();
+	stick_icon.src = "invalidstickmanicon.png";
+	context.drawImage(stick_icon,10,10);
+    }
+
+}
+
 //Draw to each canvas
 function draw_all()
 {
 	main_draw();
 	god_draw();
+	menu_draw();
 }
 
 ///////////////////// MAIN GAME RUNNING METHODS /////////////////////////////////
@@ -254,15 +334,7 @@ function wait_for_step()
 function game()
 {
 	document.getElementById("button").style.visibility = 'hidden';
-	//document.getElementById("main_screen").onmousedown = keyListener;
-	document.onkeydown = keyListener;
-	var soldier1 = new stickMan(50, 100, 100, 5, 10, 10, 5, 2, false);
-	var soldier2 = new stickMan(20, 200, 200, 2, 10, 10, 5, 2, false);
-	var enemy1 = new stickMan(350, 100, 100, 5, 10, 10, 5, 2, false);
-	var enemy2 = new stickMan(380, 200, 200, 2, 10, 10, 5, 2, false);
-	pArmy.pFootSoldiers.push(soldier1);
-	pArmy.pFootSoldiers.push(soldier2);
-	eArmy.eFootSoldiers.push(enemy1);
-	eArmy.eFootSoldiers.push(enemy2);
+	//document.getElementById("main_screen").onmousedown = keyListener;  //Removed to use keys instead (temporary)
+	document.onkeydown = keyListener;  //Allows key use (for player and enemy spawn)
 	wait_for_step();
 }
