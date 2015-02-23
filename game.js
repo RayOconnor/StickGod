@@ -42,9 +42,13 @@ if (document.images)
 {
 	var img = new Array();
 	img[0] = new Image();
-	img[0].src = 'stickmanside.png';
+	img[0].src = 'mainbackground.png';
 	img[1] = new Image();
-	img[1].src = 'stickmantop.png';
+	img[1].src = 'godbackground.png';
+	img[2] = new Image();
+	img[2].src = 'stickmanside.png';
+	img[3] = new Image();
+	img[3].src = 'stickmantop.png';
 }
 
 
@@ -128,19 +132,19 @@ function keyListener(e) {
     */
 	if(e.keyCode == 49)
 	{
-		yPos = 350;
+		yPos = 375;
 	}		
 	else if(e.keyCode == 50)
 	{
-		yPos = 300;
+		yPos = 345;
 	}
 	else if(e.keyCode == 51)
 	{
-		yPos = 200;
+		yPos = 315;
 	}
 	else if(e.keyCode == 52)
 	{
-		yPos = 100;
+		yPos = 285;
 	}
     spawn_player_soldiers(yPos);
 
@@ -155,7 +159,12 @@ function main_draw()
 	var main_canvas = document.getElementById("main_screen");
 	var context = main_canvas.getContext("2d");
 	context.clearRect(0,0,XMax,YMax);
-	
+
+	//Draw main background
+	var background = new Image();
+	background.src = "mainbackground.png";
+	context.drawImage(background,0,0);
+
 	//Draw every player soldier
 	for (var i = 0; i < pArmy.pFootSoldiers.length; i++)
 	{
@@ -181,7 +190,12 @@ function god_draw()
 	var god_canvas = document.getElementById("god_screen");
 	var context = god_canvas.getContext("2d");
 	context.clearRect(0,0,XMax,ZMax);
-	
+
+	//Draw god background
+	var background = new Image();
+	background.src = "godbackground.png";
+	context.drawImage(background,0,0);
+
 	//Draw every player soldier
 	for (var i = 0; i < pArmy.pFootSoldiers.length; i++)
 	{
